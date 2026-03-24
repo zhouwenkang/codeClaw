@@ -1,0 +1,371 @@
+[
+  {
+    "id": "react-001",
+    "title": "React 中 useState 和 useReducer 有什么区别？",
+    "description": "请解释 React Hooks 中 useState 和 useReducer 的使用场景和主要区别。",
+    "category": "react",
+    "difficulty": "medium",
+    "tags": ["hooks", "state-management"],
+    "type": "open-ended",
+    "answer": {
+      "text": "useState 和 useReducer 都是 React 中用于管理状态的 Hook，主要区别在于使用场景和复杂度。",
+      "explanation": "useState 适用于简单的状态管理，如单个值或简单对象。useReducer 更适合复杂的状态逻辑，特别是当状态更新依赖于之前的状态，或者有多个子值需要协调更新时。useReducer 还可以将状态更新逻辑集中到一个 reducer 函数中，使代码更易测试和维护。",
+      "codeExample": "// useState 示例\nconst [count, setCount] = useState(0);\n\n// useReducer 示例\nconst [state, dispatch] = useReducer(reducer, { count: 0 });\n\nfunction reducer(state, action) {\n  switch (action.type) {\n    case 'increment':\n      return { count: state.count + 1 };\n    case 'decrement':\n      return { count: state.count - 1 };\n    default:\n      return state;\n  }\n}",
+      "tips": [
+        "useState 更简单直观，适合初学者",
+        "useReducer 更适合复杂状态逻辑和大型应用",
+        "useReducer 可以更好地优化性能，避免不必要的重新渲染",
+        "在需要共享状态逻辑时，useReducer 更容易提取和复用"
+      ],
+      "references": [
+        "React 官方文档: https://react.dev/reference/react/useState",
+        "React 官方文档: https://react.dev/reference/react/useReducer"
+      ]
+    },
+    "createdAt": "2024-01-01T00:00:00.000Z",
+    "viewCount": 0
+  },
+  {
+    "id": "react-002",
+    "title": "React 组件生命周期中，useEffect 如何模拟 componentDidMount、componentDidUpdate 和 componentWillUnmount？",
+    "description": "请说明如何使用 useEffect Hook 来模拟类组件中的生命周期方法。",
+    "category": "react",
+    "difficulty": "medium",
+    "tags": ["hooks", "lifecycle", "useeffect"],
+    "type": "open-ended",
+    "answer": {
+      "text": "useEffect 可以通过不同的依赖项配置来模拟类组件的生命周期方法。",
+      "explanation": "空依赖数组 [] 模拟 componentDidMount，在组件挂载后执行一次。依赖项数组包含特定值时模拟 componentDidUpdate，当这些值变化时重新执行。返回一个清理函数模拟 componentWillUnmount，在组件卸载前执行清理操作。",
+      "codeExample": "// 模拟 componentDidMount\nuseEffect(() => {\n  console.log('Component did mount');\n  // 只在挂载时执行一次\n}, []);\n\n// 模拟 componentDidUpdate\nuseEffect(() => {\n  console.log('Count updated:', count);\n  // 当 count 变化时执行\n}, [count]);\n\n// 模拟 componentWillUnmount\nuseEffect(() => {\n  const timer = setInterval(() => {\n    console.log('Timer running');\n  }, 1000);\n  \n  return () => {\n    clearInterval(timer); // 清理函数模拟 componentWillUnmount\n    console.log('Component will unmount');\n  };\n}, []);",
+      "tips": [
+        "空依赖数组 [] 确保 effect 只运行一次",
+        "清理函数对于防止内存泄漏很重要",
+        "多个 useEffect 可以分离不同的关注点",
+        "依赖项应该包含 effect 中使用的所有外部变量"
+      ],
+      "references": [
+        "React 官方文档: https://react.dev/reference/react/useEffect"
+      ]
+    },
+    "createdAt": "2024-01-02T00:00:00.000Z",
+    "viewCount": 0
+  },
+  {
+    "id": "react-003",
+    "title": "什么是 React 中的虚拟 DOM？它是如何工作的？",
+    "description": "解释虚拟 DOM 的概念、工作原理以及它如何提高性能。",
+    "category": "react",
+    "difficulty": "easy",
+    "tags": ["virtual-dom", "performance", "reconciliation"],
+    "type": "open-ended",
+    "answer": {
+      "text": "虚拟 DOM 是 React 的核心概念之一，它是真实 DOM 的 JavaScript 对象表示。",
+      "explanation": "当组件状态改变时，React 首先在内存中创建一个新的虚拟 DOM 树，然后通过 Diff 算法比较新旧虚拟 DOM 树的差异。React 只将必要的最小更新应用到真实 DOM 上，从而避免了昂贵的 DOM 操作，提高了性能。",
+      "codeExample": "// 虚拟 DOM 示例（概念性）\nconst virtualDOM = {\n  type: 'div',\n  props: {\n    className: 'container',\n    children: [\n      {\n        type: 'h1',\n        props: {\n          children: 'Hello World'\n        }\n      }\n    ]\n  }\n};\n\n// React 通过 React.createElement 创建虚拟 DOM\nconst element = React.createElement(\n  'div',\n  { className: 'container' },\n  React.createElement('h1', null, 'Hello World')\n);",
+      "tips": [
+        "虚拟 DOM 减少了直接操作真实 DOM 的次数",
+        "Diff 算法的时间复杂度从 O(n³) 优化到 O(n)",
+        "React 16+ 使用 Fiber 架构进一步优化渲染性能",
+        "虚拟 DOM 还提供了跨平台能力（React Native）"
+      ],
+      "references": [
+        "React 官方文档: https://react.dev/learn/render-and-commit",
+        "React Fiber 架构: https://github.com/acdlite/react-fiber-architecture"
+      ]
+    },
+    "createdAt": "2024-01-03T00:00:00.000Z",
+    "viewCount": 0
+  },
+  {
+    "id": "js-001",
+    "title": "JavaScript 中的闭包是什么？请举例说明其应用场景。",
+    "description": "解释闭包的概念、工作原理以及在实际开发中的应用。",
+    "category": "javascript",
+    "difficulty": "medium",
+    "tags": ["closure", "scope", "function"],
+    "type": "open-ended",
+    "answer": {
+      "text": "闭包是指函数可以访问其外部作用域中的变量，即使外部函数已经执行完毕。",
+      "explanation": "闭包是 JavaScript 中重要的概念，它允许函数记住并访问其词法作用域，即使函数在其词法作用域之外执行。闭包在模块模式、事件处理、定时器、私有变量等场景中非常有用。",
+      "codeExample": "// 闭包示例：计数器\nfunction createCounter() {\n  let count = 0; // 私有变量\n  \n  return {\n    increment: function() {\n      count++;\n      return count;\n    },\n    decrement: function() {\n      count--;\n      return count;\n    },\n    getCount: function() {\n      return count;\n    }\n  };\n}\n\nconst counter = createCounter();\nconsole.log(counter.increment()); // 1\nconsole.log(counter.increment()); // 2\nconsole.log(counter.getCount()); // 2\n\n// 闭包应用：事件处理\nfunction createButtons() {\n  for (var i = 1; i <= 5; i++) {\n    (function(num) {\n      const button = document.createElement('button');\n      button.textContent = `Button ${num}`;\n      button.onclick = function() {\n        alert(`Clicked button ${num}`);\n      };\n      document.body.appendChild(button);\n    })(i);\n  }\n}",
+      "tips": [
+        "闭包可以让函数拥有私有变量",
+        "注意闭包可能导致的内存泄漏问题",
+        "在循环中使用闭包时要注意变量作用域",
+        "ES6 的 let/const 可以简化闭包的使用"
+      ],
+      "references": [
+        "MDN: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures",
+        "You Don't Know JS: Scope & Closures"
+      ]
+    },
+    "createdAt": "2024-01-04T00:00:00.000Z",
+    "viewCount": 0
+  },
+  {
+    "id": "js-002",
+    "title": "JavaScript 中的事件循环（Event Loop）是如何工作的？",
+    "description": "解释 JavaScript 的单线程模型和事件循环机制。",
+    "category": "javascript",
+    "difficulty": "hard",
+    "tags": ["event-loop", "async", "concurrency"],
+    "type": "open-ended",
+    "answer": {
+      "text": "JavaScript 是单线程语言，事件循环是其处理异步操作的机制。",
+      "explanation": "事件循环持续检查调用栈和任务队列。当调用栈为空时，事件循环会将任务队列中的回调函数推入调用栈执行。任务队列分为宏任务（macro task）和微任务（micro task），微任务优先级更高。",
+      "codeExample": "console.log('1'); // 同步任务\n\nsetTimeout(() => {\n  console.log('2'); // 宏任务\n}, 0);\n\nPromise.resolve().then(() => {\n  console.log('3'); // 微任务\n});\n\nconsole.log('4'); // 同步任务\n\n// 输出顺序：1 -> 4 -> 3 -> 2\n// 1. 执行所有同步代码\n// 2. 执行所有微任务（Promise）\n// 3. 执行宏任务（setTimeout）",
+      "tips": [
+        "微任务包括：Promise、MutationObserver、process.nextTick",
+        "宏任务包括：setTimeout、setInterval、setImmediate、I/O",
+        "每执行完一个宏任务后，会清空所有微任务",
+        "async/await 本质上是 Promise 的语法糖"
+      ],
+      "references": [
+        "MDN: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Event_loop",
+        "Philip Roberts: What the heck is the event loop anyway?"
+      ]
+    },
+    "createdAt": "2024-01-05T00:00:00.000Z",
+    "viewCount": 0
+  },
+  {
+    "id": "js-003",
+    "title": "JavaScript 中的原型链是什么？",
+    "description": "解释 JavaScript 的原型继承机制和原型链的工作原理。",
+    "category": "javascript",
+    "difficulty": "medium",
+    "tags": ["prototype", "inheritance", "prototype-chain"],
+    "type": "open-ended",
+    "answer": {
+      "text": "原型链是 JavaScript 实现继承的机制，每个对象都有一个原型对象。",
+      "explanation": "当访问一个对象的属性时，如果对象本身没有这个属性，JavaScript 会沿着原型链向上查找，直到找到该属性或到达原型链的末端（null）。这种机制实现了属性和方法的继承。",
+      "codeExample": "// 构造函数\nfunction Person(name) {\n  this.name = name;\n}\n\n// 在原型上添加方法\nPerson.prototype.sayHello = function() {\n  return `Hello, I'm ${this.name}`;\n};\n\nconst person = new Person('Alice');\nconsole.log(person.sayHello()); // Hello, I'm Alice\n\n// 原型链示例\nconsole.log(person.__proto__ === Person.prototype); // true\nconsole.log(Person.prototype.__proto__ === Object.prototype); // true\nconsole.log(Object.prototype.__proto__ === null); // true\n\n// ES6 Class 语法糖\nclass Animal {\n  constructor(name) {\n    this.name = name;\n  }\n  \n  speak() {\n    console.log(`${this.name} makes a sound`);\n  }\n}\n\nclass Dog extends Animal {\n  speak() {\n    console.log(`${this.name} barks`);\n  }\n}\n\nconst dog = new Dog('Buddy');\ndog.speak(); // Buddy barks",
+      "tips": [
+        "__proto__ 指向对象的原型",
+        "prototype 是函数特有的属性",
+        "ES6 class 只是原型继承的语法糖",
+        "Object.getPrototypeOf() 是获取原型的推荐方法"
+      ],
+      "references": [
+        "MDN: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Inheritance_and_the_prototype_chain",
+        "You Don't Know JS: this & Object Prototypes"
+      ]
+    },
+    "createdAt": "2024-01-06T00:00:00.000Z",
+    "viewCount": 0
+  },
+  {
+    "id": "css-001",
+    "title": "CSS 中的 Flexbox 和 Grid 布局有什么区别？何时使用哪个？",
+    "description": "比较 Flexbox 和 CSS Grid 布局的特点和使用场景。",
+    "category": "css",
+    "difficulty": "medium",
+    "tags": ["flexbox", "grid", "layout"],
+    "type": "open-ended",
+    "answer": {
+      "text": "Flexbox 是一维布局系统，Grid 是二维布局系统。",
+      "explanation": "Flexbox 主要用于一维布局（行或列），适合组件级别的布局。CSS Grid 是二维布局系统（行和列），适合页面级别的复杂布局。两者可以结合使用，Grid 用于整体布局，Flexbox 用于内部元素排列。",
+      "codeExample": "/* Flexbox 示例：水平居中 */\n.container {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n\n/* Grid 示例：响应式网格 */\n.grid-container {\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));\n  gap: 20px;\n}\n\n/* 结合使用 */\n.page-layout {\n  display: grid;\n  grid-template-areas:\n    'header header header'\n    'sidebar main main'\n    'footer footer footer';\n  grid-template-columns: 200px 1fr;\n  grid-template-rows: auto 1fr auto;\n  min-height: 100vh;\n}\n\n.nav-items {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n}",
+      "tips": [
+        "Flexbox 适用于组件级别的布局",
+        "Grid 适用于页面级别的复杂布局",
+        "Grid 更适合创建响应式网格",
+        "Flexbox 的内容可以推动容器扩展",
+        "Grid 的项目位置更加精确"
+      ],
+      "references": [
+        "MDN Flexbox: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Flexible_Box_Layout",
+        "MDN Grid: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Grid_Layout"
+      ]
+    },
+    "createdAt": "2024-01-07T00:00:00.000Z",
+    "viewCount": 0
+  },
+  {
+    "id": "css-002",
+    "title": "CSS 中的 BFC（块级格式化上下文）是什么？",
+    "description": "解释 BFC 的概念、触发条件以及应用场景。",
+    "category": "css",
+    "difficulty": "hard",
+    "tags": ["bfc", "layout", "formatting-context"],
+    "type": "open-ended",
+    "answer": {
+      "text": "BFC 是块级格式化上下文，是 Web 页面中独立的渲染区域。",
+      "explanation": "BFC 决定了元素如何对其子元素进行定位，以及与其他元素的关系和相互作用。触发 BFC 的元素会创建一个独立的布局环境，内部的元素不会影响外部元素。",
+      "codeExample": "/* 触发 BFC 的方法 */\n.container {\n  /* 以下任一属性都可以触发 BFC */\n  overflow: hidden; /* 或 auto */\n  display: flow-root; /* 现代推荐方法 */\n  float: left; /* 或 right */\n  position: absolute; /* 或 fixed */\n  display: inline-block;\n}\n\n/* BFC 应用：清除浮动 */\n.clearfix::after {\n  content: '';\n  display: table;\n  clear: both;\n}\n\n/* BFC 应用：阻止 margin 重叠 */\n.bfc-container {\n  overflow: hidden; /* 创建 BFC */\n}\n\n/* BFC 应用：自适应两栏布局 */\n.sidebar {\n  float: left;\n  width: 200px;\n}\n\n.main-content {\n  overflow: hidden; /* 创建 BFC，不与浮动元素重叠 */\n}",
+      "tips": [
+        "display: flow-root 是创建 BFC 的现代推荐方法",
+        "BFC 可以包含浮动元素，实现清除浮动效果",
+        "BFC 可以阻止 margin 重叠",
+        "BFC 可以阻止元素被浮动元素覆盖"
+      ],
+      "references": [
+        "MDN: https://developer.mozilla.org/en-US/docs/Web/Guide/CSS/Block_formatting_context",
+        "CSS Tricks: https://css-tricks.com/understanding-block-formatting-contexts/"
+      ]
+    },
+    "createdAt": "2024-01-08T00:00:00.000Z",
+    "viewCount": 0
+  },
+  {
+    "id": "html-001",
+    "title": "HTML5 的语义化标签有哪些？为什么要使用语义化标签？",
+    "description": "列举 HTML5 新增的语义化标签并解释其重要性。",
+    "category": "html",
+    "difficulty": "easy",
+    "tags": ["html5", "semantic", "accessibility"],
+    "type": "open-ended",
+    "answer": {
+      "text": "HTML5 引入了许多语义化标签，如 header、nav、main、article、section、aside、footer 等。",
+      "explanation": "语义化标签让 HTML 结构更清晰，有助于搜索引擎优化（SEO）、无障碍访问（Accessibility）和代码可维护性。屏幕阅读器可以更好地理解页面结构，搜索引擎可以更准确地抓取内容，开发者也更容易理解和维护代码。",
+      "codeExample": "<!-- 语义化 HTML5 结构 -->\n<!DOCTYPE html>\n<html lang=\"zh-CN\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>语义化页面示例</title>\n</head>\n<body>\n  <header>\n    <nav>\n      <ul>\n        <li><a href=\"#home\">首页</a></li>\n        <li><a href=\"#about\">关于</a></li>\n      </ul>\n    </nav>\n  </header>\n  \n  <main>\n    <article>\n      <h1>文章标题</h1>\n      <section>\n        <h2>章节一</h2>\n        <p>内容...</p>\n      </section>\n      <section>\n        <h2>章节二</h2>\n        <p>内容...</p>\n      </section>\n    </article>\n    \n    <aside>\n      <h3>相关内容</h3>\n      <ul>\n        <li><a href=\"#related1\">相关文章1</a></li>\n        <li><a href=\"#related2\">相关文章2</a></li>\n      </ul>\n    </aside>\n  </main>\n  \n  <footer>\n    <p>&copy; 2024 版权所有</p>\n  </footer>\n</body>\n</html>",
+      "tips": [
+        "语义化标签提升 SEO 效果",
+        "有助于屏幕阅读器理解页面结构",
+        "提高代码的可读性和可维护性",
+        "便于自动化工具和未来技术的处理"
+      ],
+      "references": [
+        "MDN: https://developer.mozilla.org/en-US/docs/Glossary/Semantics",
+        "HTML5 规范: https://html.spec.whatwg.org/"
+      ]
+    },
+    "createdAt": "2024-01-09T00:00:00.000Z",
+    "viewCount": 0
+  },
+  {
+    "id": "algorithm-001",
+    "title": "实现一个函数，找出数组中两个数的和等于目标值",
+    "description": "给定一个整数数组 nums 和一个目标值 target，请找出数组中和为目标值的两个整数的索引。",
+    "category": "algorithm",
+    "difficulty": "easy",
+    "tags": ["array", "hash-table"],
+    "type": "coding",
+    "answer": {
+      "text": "可以使用哈希表来优化查找过程，将时间复杂度从 O(n²) 降低到 O(n)。",
+      "explanation": "遍历数组时，对于每个元素，检查哈希表中是否存在目标值与当前元素的差值。如果存在，返回两个索引；如果不存在，将当前元素及其索引存入哈希表。",
+      "codeExample": "function twoSum(nums, target) {\n  // 创建哈希表存储数值和索引\n  const numMap = new Map();\n  \n  for (let i = 0; i < nums.length; i++) {\n    const complement = target - nums[i];\n    \n    // 检查哈希表中是否存在目标值\n    if (numMap.has(complement)) {\n      return [numMap.get(complement), i];\n    }\n    \n    // 将当前数值和索引存入哈希表\n    numMap.set(nums[i], i);\n  }\n  \n  // 如果没有找到，返回空数组\n  return [];\n}\n\n// 测试用例\nconsole.log(twoSum([2, 7, 11, 15], 9)); // [0, 1]\nconsole.log(twoSum([3, 2, 4], 6)); // [1, 2]\nconsole.log(twoSum([3, 3], 6)); // [0, 1]\n\n// 优化版本：支持返回所有可能的组合\nfunction twoSumAll(nums, target) {\n  const numMap = new Map();\n  const results = [];\n  \n  for (let i = 0; i < nums.length; i++) {\n    const complement = target - nums[i];\n    \n    if (numMap.has(complement)) {\n      results.push([numMap.get(complement), i]);\n    }\n    \n    numMap.set(nums[i], i);\n  }\n  \n  return results;\n}",
+      "tips": [
+        "哈希表可以将查找时间从 O(n) 降低到 O(1)",
+        "注意处理重复元素的情况",
+        "考虑边界情况：空数组、无解情况",
+        "空间换时间是常见的优化策略"
+      ],
+      "references": [
+        "LeetCode 1: Two Sum",
+        "《算法导论》第 11 章：散列表"
+      ]
+    },
+    "createdAt": "2024-01-10T00:00:00.000Z",
+    "viewCount": 0
+  },
+  {
+    "id": "algorithm-002",
+    "title": "实现一个函数，判断链表是否有环",
+    "description": "给定一个链表的头节点，判断链表中是否有环。",
+    "category": "algorithm",
+    "difficulty": "medium",
+    "tags": ["linked-list", "two-pointers"],
+    "type": "coding",
+    "answer": {
+      "text": "使用快慢指针（龟兔赛跑算法）可以高效地检测链表中是否有环。",
+      "explanation": "慢指针每次移动一步，快指针每次移动两步。如果链表有环，快指针最终会追上慢指针；如果快指针到达链表末尾，则链表无环。",
+      "codeExample": "class ListNode {\n  constructor(val) {\n    this.val = val;\n    this.next = null;\n  }\n}\n\nfunction hasCycle(head) {\n  if (!head || !head.next) {\n    return false;\n  }\n  \n  let slow = head;\n  let fast = head.next;\n  \n  while (slow !== fast) {\n    if (!fast || !fast.next) {\n      return false; // 快指针到达末尾\n    }\n    \n    slow = slow.next; // 慢指针移动一步\n    fast = fast.next.next; // 快指针移动两步\n  }\n  \n  return true; // 快慢指针相遇，有环\n}\n\n// 测试用例\nconst node1 = new ListNode(1);\nconst node2 = new ListNode(2);\nconst node3 = new ListNode(3);\nconst node4 = new ListNode(4);\n\nnode1.next = node2;\nnode2.next = node3;\nnode3.next = node4;\nconsole.log(hasCycle(node1)); // false\n\n// 创建环\nnode4.next = node2;\nconsole.log(hasCycle(node1)); // true\n\n// 优化版本：返回环的起始节点\nfunction detectCycle(head) {\n  if (!head || !head.next) {\n    return null;\n  }\n  \n  let slow = head;\n  let fast = head;\n  \n  // 检测是否有环\n  while (fast && fast.next) {\n    slow = slow.next;\n    fast = fast.next.next;\n    \n    if (slow === fast) {\n      break;\n    }\n  }\n  \n  if (!fast || !fast.next) {\n    return null; // 无环\n  }\n  \n  // 找到环的起始节点\n  slow = head;\n  while (slow !== fast) {\n    slow = slow.next;\n    fast = fast.next;\n  }\n  \n  return slow;\n}",
+      "tips": [
+        "快慢指针是解决链表问题的常用技巧",
+        "时间复杂度 O(n)，空间复杂度 O(1)",
+        "如果找到环，可以进一步找到环的起始节点",
+        "注意处理边界情况：空链表、单节点链表"
+      ],
+      "references": [
+        "LeetCode 141: Linked List Cycle",
+        "LeetCode 142: Linked List Cycle II"
+      ]
+    },
+    "createdAt": "2024-01-11T00:00:00.000Z",
+    "viewCount": 0
+  },
+  {
+    "id": "performance-001",
+    "title": "如何优化网页的首次加载性能？",
+    "description": "列举并解释优化网页首次加载性能的方法。",
+    "category": "performance",
+    "difficulty": "medium",
+    "tags": ["loading-performance", "optimization", "web-vitals"],
+    "type": "open-ended",
+    "answer": {
+      "text": "优化首次加载性能可以从减少资源大小、优化加载策略、利用缓存等多个方面入手。",
+      "explanation": "首次加载性能对用户体验至关重要。可以通过代码分割、资源压缩、使用 CDN、启用压缩、优化图片、使用预加载策略等方法来减少加载时间。同时，关注核心 Web 指标（Core Web Vitals）如 LCP、FID、CLS。",
+      "codeExample": "// 代码分割示例（React）\nimport { lazy, Suspense } from 'react';\n\nconst HeavyComponent = lazy(() => import('./HeavyComponent'));\n\nfunction App() {\n  return (\n    <div>\n      <Suspense fallback={<div>Loading...</div>}>\n        <HeavyComponent />\n      </Suspense>\n    </div>\n  );\n}\n\n// 预加载关键资源\n<link rel=\"preload\" href=\"/fonts/my-font.woff2\" as=\"font\" type=\"font/woff2\" crossorigin>\n<link rel=\"preload\" href=\"/css/critical.css\" as=\"style\">\n<link rel=\"dns-prefetch\" href=\"//example.com\">\n\n// 图片优化\n<picture>\n  <source srcset=\"image.webp\" type=\"image/webp\">\n  <source srcset=\"image.jpg\" type=\"image/jpeg\">\n  <img src=\"image.jpg\" alt=\"Description\">\n</picture>",
+      "tips": [
+        "使用 Lighthouse 评估性能指标",
+        "实施代码分割和懒加载",
+        "优化图片格式（WebP、AVIF）",
+        "启用 Gzip/Brotli 压缩",
+        "使用 HTTP/2 和 CDN",
+        "减少第三方脚本的影响"
+      ],
+      "references": [
+        "Web Vitals: https://web.dev/vitals/",
+        "Lighthouse: https://developer.chrome.com/docs/lighthouse/"
+      ]
+    },
+    "createdAt": "2024-01-12T00:00:00.000Z",
+    "viewCount": 0
+  },
+  {
+    "id": "browser-001",
+    "title": "浏览器从输入 URL 到页面渲染完成发生了什么？",
+    "description": "详细描述浏览器处理 URL 并渲染页面的完整过程。",
+    "category": "browser",
+    "difficulty": "hard",
+    "tags": ["browser-rendering", "critical-rendering-path", "network"],
+    "type": "open-ended",
+    "answer": {
+      "text": "浏览器从输入 URL 到页面渲染完成经历了 DNS 解析、TCP 连接、HTTP 请求、解析渲染等多个阶段。",
+      "explanation": "整个过程包括：DNS 解析域名 → TCP 三次握手 → HTTP 请求/响应 → 解析 HTML 构建 DOM 树 → 解析 CSS 构建 CSSOM 树 → 合并成渲染树 → 布局 → 绘制 → 合成。理解这个过程有助于优化页面加载性能。",
+      "codeExample": "// 性能监控：测量关键渲染路径\nwindow.addEventListener('load', () => {\n  const perfData = window.performance.timing;\n  const pageLoadTime = perfData.loadEventEnd - perfData.navigationStart;\n  const connectTime = perfData.responseEnd - perfData.requestStart;\n  const renderTime = perfData.domComplete - perfData.domLoading;\n  \n  console.log('页面加载时间:', pageLoadTime + 'ms');\n  console.log('网络请求时间:', connectTime + 'ms');\n  console.log('DOM 渲染时间:', renderTime + 'ms');\n});\n\n// 监控 LCP (Largest Contentful Paint)\nlet lcp;\nconst observer = new PerformanceObserver((entryList) => {\n  const entries = entryList.getEntries();\n  const lastEntry = entries[entries.length - 1];\n  lcp = lastEntry.renderTime || lastEntry.loadTime;\n  console.log('LCP:', lcp);\n});\nobserver.observe({ entryTypes: ['largest-contentful-paint'] });",
+      "tips": [
+        "理解关键渲染路径有助于性能优化",
+        "关注 DNS 预解析、TCP 连接复用",
+        "优化 CSS 和 JS 的加载顺序",
+        "使用 async/defer 优化脚本加载",
+        "减少重排（reflow）和重绘（repaint）"
+      ],
+      "references": [
+        "Web Fundamentals: https://developer.chrome.com/docs/",
+        "MDN: https://developer.mozilla.org/en-US/docs/Web/Performance"
+      ]
+    },
+    "createdAt": "2024-01-13T00:00:00.000Z",
+    "viewCount": 0
+  },
+  {
+    "id": "engineering-001",
+    "title": "什么是 CI/CD？为什么在前端开发中很重要？",
+    "description": "解释 CI/CD 的概念、工作流程以及在前端开发中的应用。",
+    "category": "engineering",
+    "difficulty": "medium",
+    "tags": ["cicd", "devops", "automation"],
+    "type": "open-ended",
+    "answer": {
+      "text": "CI/CD 是持续集成（Continuous Integration）和持续部署（Continuous Deployment）的缩写，是现代软件开发的重要实践。",
+      "explanation": "CI/CD 通过自动化构建、测试和部署流程，提高开发效率，减少人为错误，确保代码质量。在前端开发中，CI/CD 可以自动化执行代码检查、单元测试、构建、部署到各种环境等任务。",
+      "codeExample": "# GitHub Actions CI/CD 示例\nname: Frontend CI/CD\n\non:\n  push:\n    branches: [ main ]\n  pull_request:\n    branches: [ main ]\n\njobs:\n  build-and-deploy:\n    runs-on: ubuntu-latest\n    \n    steps:\n    - uses: actions/checkout@v3\n    \n    - name: Setup Node.js\n      uses: actions/setup-node@v3\n      with:\n        node-version: '18'\n        cache: 'npm'\n    \n    - name: Install dependencies\n      run: npm ci\n    \n    - name: Run linting\n      run: npm run lint\n    \n    - name: Run tests\n      run: npm test -- --coverage\n    \n    - name: Build application\n      run: npm run build\n    \n    - name: Deploy to production\n      if: github.ref == 'refs/heads/main'\n      run: npm run deploy\n      env:\n        DEPLOY_TOKEN: ${{ secrets.DEPLOY_TOKEN }}\n\n# package.json 脚本\n{\n  \"scripts\": {\n    \"lint\": \"eslint src/**/*.{js,jsx,ts,tsx}\",\n    \"test\": \"jest\",\n    \"build\": \"vite build\",\n    \"deploy\": \"npm run build && aws s3 sync dist/ s3://my-bucket/\"\n  }\n}",
+      "tips": [
+        "CI/CD 可以提高开发效率和代码质量",
+        "自动化测试是 CI/CD 的核心",
+        "使用 feature branch workflow 管理代码",
+        "环境变量管理要安全可靠",
+        "监控和日志对于 CI/CD 至关重要"
+      ],
+      "references": [
+        "GitHub Actions: https://docs.github.com/en/actions",
+        "Jenkins: https://www.jenkins.io/",
+        "GitLab CI: https://docs.gitlab.com/ee/ci/"
+      ]
+    },
+    "createdAt": "2024-01-14T00:00:00.000Z",
+    "viewCount": 0
+  }
+]
