@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import type { Question } from '../types/question';
 import { getTodayQuestion } from '../utils/dailyGenerator';
 import { Storage } from '../utils/storage';
-import QuestionCard from './QuestionCard';
 import { useQuestion } from '../context/QuestionContext';
 
 interface DailyQuestionProps {

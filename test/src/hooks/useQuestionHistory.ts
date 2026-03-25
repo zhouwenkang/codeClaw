@@ -7,7 +7,7 @@ import { useQuestion } from '../context/QuestionContext';
  * 自定义 Hook：管理答题历史和学习进度
  */
 export const useQuestionHistory = () => {
-  const { state, loadUserProgress, markAsAnswered, toggleFavorite } = useQuestion();
+  const { state, loadUserProgress } = useQuestion();
   const { userProgress } = state;
 
   /**

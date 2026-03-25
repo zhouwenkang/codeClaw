@@ -132,13 +132,13 @@ export class Storage {
 /**
  * 防抖函数（用于优化频繁触发的操作）
  */
-export function debounce<T extends (...args: any[]) => void>(
+export function debounce<T extends (...args: never[]) => void>(
   func: T,
   wait: number
-): (...args: Parameters<T>) => void {
-  let timeout: NodeJS.Timeout | null = null;
+): T {
+  let timeout: ReturnType<typeof setTimeout> | null = null;
   
-  return (...args: Parameters<T>) => {
+  return ((...args: Parameters<T>) => {
     if (timeout) {
       clearTimeout(timeout);
     }
@@ -147,7 +147,7 @@ export function debounce<T extends (...args: any[]) => void>(
       func(...args);
       timeout = null;
     }, wait);
-  };
+  }) as T;
 }
 
 /**
